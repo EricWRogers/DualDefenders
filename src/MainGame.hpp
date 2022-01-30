@@ -25,6 +25,12 @@
 enum class GameState
 {
     PLAY,
+    STUDIO,
+    GAMEJAM,
+    TITLE,
+    CONTROLS,
+    GAME,
+    GAMEOVER,
     EXIT
 };
 
@@ -45,9 +51,9 @@ private:
     void drawGame();
 
     void resetPotato(Entity *potato, Entity *planet);
-    int setShipTop(Entity *ship, Entity *planet);
-    int setShipBottom(Entity *ship, Entity *planet);
-    int moveShip(Entity *ship, Entity *planet, int index, int direction);
+    float setShipTop(Entity *ship, Entity *planet);
+    float setShipBottom(Entity *ship, Entity *planet);
+    float moveShip(Entity *ship, Entity *planet, float angle, float direction);
     void shootBullet(glm::vec2 position, float velocity, glm::vec2 direction, glm::vec2 size);
     void checkBulletCollision();
     bool checkCollision(Entity &one, Entity &two);
@@ -62,6 +68,13 @@ private:
     Canis::SpriteBatch _spriteBatch;
 
     Canis::Camera2D _camera;
+
+    // UI
+    Canis::GLTexture _team_and_engine_screen;
+    Canis::GLTexture _global_game_jam_screen;
+    Canis::GLTexture _title_screen;
+    Canis::GLTexture _controls_screen;
+    Canis::GLTexture _game_over_screen;
 
     Canis::GLTexture _player_light_texture;
     Canis::GLTexture _player_heavy_texture;
@@ -87,8 +100,14 @@ private:
 
     int _current_index = 0;
 
-    int _max_health = 3;
-    int _current_health = 3;
+    int _max_health = 4;
+    int _current_health = 4;
+
+    Entity _team_and_engine;
+    Entity _global_game_jam;
+    Entity _title;
+    Entity _controls;
+    Entity _game_over;
 
     Entity _player_heavy;
     Entity _player_light;
@@ -104,10 +123,24 @@ private:
     int _player_light_index = 0;
     int _bullet_index = 0;
 
+    float _player_heavy_angle = 0;
+    float _player_light_angle = 0;
+
     std::vector<glm::vec2> _orbits = {
         glm::vec2(-1,0), glm::vec2(-.75,.25), glm::vec2(-0.5,0.5), glm::vec2(-0.25f,0.75f),
         glm::vec2(0,1), glm::vec2(0.25f,0.75f), glm::vec2(0.5f,0.5f), glm::vec2(0.75f,0.25f),
         glm::vec2(1,0), glm::vec2(0.75f, -0.25f), glm::vec2(0.5f,-0.5f), glm::vec2(0.25f,-0.75f),
         glm::vec2(0,-1), glm::vec2(-0.25f, -0.75f), glm::vec2(-0.5f,-0.5f), glm::vec2(-0.75f,-0.25f)
     };
+
+    bool change_state = false;
+    bool enter_was_down = false;
+    bool tab_was_down = false;
+    bool space_was_down = false;
+
+    int max_shooting_wait = 4;
+    int shooting_wait = 0;
+
+    float _ship_speed = 5;
+    long score = 0;
 };

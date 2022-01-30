@@ -21,6 +21,7 @@ namespace Canis
         ~Window();
 
         int create(std::string windowName, int screenWidth, int screenHeight, unsigned int currentFlags);
+        void setWindowName(std::string windowName);
 
         void swapBuffer();
 

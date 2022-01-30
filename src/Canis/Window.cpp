@@ -46,6 +46,11 @@ namespace Canis
         return 0;
     }
 
+    void Window::setWindowName(std::string windowName)
+    {
+        SDL_SetWindowTitle(_sdlWindow,windowName.c_str());
+    }
+
     void Window::swapBuffer()
     {
         SDL_GL_SwapWindow(_sdlWindow);
