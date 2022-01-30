@@ -3,6 +3,7 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <vector>
+#include <list>
 #include <stdio.h>
 #include <string>
 #include <time.h>
@@ -40,7 +41,17 @@ private:
     void initShaders();
     void gameLoop();
     void processInput();
+    void update();
     void drawGame();
+
+    void resetPotato(Entity *potato, Entity *planet);
+    int setShipTop(Entity *ship, Entity *planet);
+    int setShipBottom(Entity *ship, Entity *planet);
+    int moveShip(Entity *ship, Entity *planet, int index, int direction);
+    void shootBullet(glm::vec2 position, float velocity, glm::vec2 direction, glm::vec2 size);
+    void checkBulletCollision();
+    bool checkCollision(Entity &one, Entity &two);
+
 
     Canis::Window _window;
     int _screenWidth, _screenHeight;
@@ -83,5 +94,20 @@ private:
     Entity _player_light;
     Entity _planet;
     std::vector<Entity> _planet_health = {};
-    std::vector<Entity> _field_of_potatos = {};
+    std::vector<Entity> _field_of_potatoes = {};
+    std::vector<Entity> _bullets = {}; 
+
+    float _last_update;
+    float _dt = 0.0f;
+
+    int _player_heavy_index = 0;
+    int _player_light_index = 0;
+    int _bullet_index = 0;
+
+    std::vector<glm::vec2> _orbits = {
+        glm::vec2(-1,0), glm::vec2(-.75,.25), glm::vec2(-0.5,0.5), glm::vec2(-0.25f,0.75f),
+        glm::vec2(0,1), glm::vec2(0.25f,0.75f), glm::vec2(0.5f,0.5f), glm::vec2(0.75f,0.25f),
+        glm::vec2(1,0), glm::vec2(0.75f, -0.25f), glm::vec2(0.5f,-0.5f), glm::vec2(0.25f,-0.75f),
+        glm::vec2(0,-1), glm::vec2(-0.25f, -0.75f), glm::vec2(-0.5f,-0.5f), glm::vec2(-0.75f,-0.25f)
+    };
 };
