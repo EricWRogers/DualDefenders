@@ -100,14 +100,16 @@ void MainGame::run()
     for (int i = 0; i < _max_health; i++)
     {
         _planet_health.push_back(
-            Entity(
+            {
                 4.0f + ((64.0f + 4.0f) * i),
                 _screenHeight - 64.0f - 4.0f,
                 0.0f,
                 64.0f,
                 64.0f,
-                _planet_health_texture
-            )
+                _planet_health_texture,
+                glm::vec2(0.0f,0.0f),
+                0.0f
+            }
         );
     }
 
@@ -119,50 +121,58 @@ void MainGame::run()
         {
             case 0:
                 _field_of_potatoes.push_back(
-                    Entity(
-                        1 + rand() % _screenWidth,
-                        1 + rand() % _screenHeight,
+                    {
+                        1.0f + rand() % _screenWidth,
+                        1.0f + rand() % _screenHeight,
                         3.0f,
                         32.0f,
                         32.0f,
-                        _potato_texture_01
-                    )
+                        _potato_texture_01,
+                        glm::vec2(0.0f,0.0f),
+                        0.0f
+                    }
                 );
                 break;
             case 1:
                 _field_of_potatoes.push_back(
-                    Entity(
-                        1 + rand() % _screenWidth,
-                        1 + rand() % _screenHeight,
+                    {
+                        1.0f + rand() % _screenWidth,
+                        1.0f + rand() % _screenHeight,
                         3.0f,
                         32.0f,
                         32.0f,
-                        _potato_texture_02
-                    )
+                        _potato_texture_02,
+                        glm::vec2(0.0f,0.0f),
+                        0.0f
+                    }
                 );
                 break;
             case 2:
                 _field_of_potatoes.push_back(
-                    Entity(
-                        1 + rand() % _screenWidth,
-                        1 + rand() % _screenHeight,
+                    {
+                        1.0f + rand() % _screenWidth,
+                        1.0f + rand() % _screenHeight,
                         3.0f,
                         32.0f,
                         32.0f,
-                        _potato_texture_03
-                    )
+                        _potato_texture_03,
+                        glm::vec2(0.0f,0.0f),
+                        0.0f
+                    }
                 );
                 break;
             case 3:
                 _field_of_potatoes.push_back(
-                    Entity(
-                        1 + rand() % _screenWidth,
-                        1 + rand() % _screenHeight,
+                    {
+                        1.0f + rand() % _screenWidth,
+                        1.0f + rand() % _screenHeight,
                         3.0f,
                         32.0f,
                         32.0f,
-                        _potato_texture_04
-                    )
+                        _potato_texture_04,
+                        glm::vec2(0.0f,0.0f),
+                        0.0f
+                    }
                 );
                 break;
         }
@@ -184,14 +194,16 @@ void MainGame::run()
     for (int i = 0; i < 1000; i++)
     {
         _bullets.push_back(
-            Entity(
+            {
                 -20.0f,
                 -20.0f,
                 1.0f,
                 4.0f,
                 4.0f,
-                _bullet_texture
-            )
+                _bullet_texture,
+                glm::vec2(0.0f,0.0f),
+                0.0f
+            }
         );
     }
 
@@ -498,7 +510,7 @@ void MainGame::update()
             x = _field_of_potatoes[i].x;
             y = _field_of_potatoes[i].y;
 
-            _field_of_potatoes[i].MoveWithDirection(_dt);
+            MoveWithDirection( _dt, _field_of_potatoes[i]);
         }
 
         // Check for colition with planet
@@ -528,7 +540,7 @@ void MainGame::update()
         // Bullet
         for (int i = 0; i < _bullets.size(); i++)
         {
-            _bullets[i].MoveWithDirection(_dt);
+            MoveWithDirection( _dt, _bullets[i]);
         }
 
         // Check Bullet collition
@@ -779,4 +791,10 @@ bool MainGame::checkCollision(Entity &one, Entity &two)
         two.y + two.height >= one.y;
     
     return collisionX && collisionY;
+}
+
+void MainGame::MoveWithDirection(float deltaTime, Entity &ent)
+{
+    ent.x += ent.direction.x * ent.velocity;
+    ent.y += ent.direction.y * ent.velocity;
 }

@@ -57,6 +57,7 @@ private:
     void shootBullet(glm::vec2 position, float velocity, glm::vec2 direction, glm::vec2 size);
     void checkBulletCollision();
     bool checkCollision(Entity &one, Entity &two);
+    void MoveWithDirection(float deltaTime, Entity &ent);
 
 
     Canis::Window _window;
